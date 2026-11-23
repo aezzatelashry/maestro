@@ -1,6 +1,6 @@
 {
   "name": "elashry-maestro",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "The strongest model plans and reviews; smaller models build. Cost-aware task routing, per-task evidence, independent review and a document mode (tenders, submittals, reports, decks) for Claude Code.",
   "author": {
     "name": "Ahmed Elashry"
@@ -9,6 +9,7 @@
   "repository": "https://github.com/aezzatelashry/maestro",
   "supportUrl": "https://github.com/aezzatelashry/maestro/issues",
   "documentationUrl": "https://github.com/aezzatelashry/maestro#readme",
+  "privacyPolicyUrl": "https://github.com/aezzatelashry/maestro/blob/main/PRIVACY.md",
   "license": "Apache-2.0",
   "keywords": [
     "orchestration",

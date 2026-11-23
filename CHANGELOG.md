@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2 (2026-11-24)
+
+- Privacy policy added (PRIVACY.md): the plugin collects and sends no data.
+
 ## 2.0.1 (2026-11-24)
 
 - Support and documentation links added to the plugin manifest.
