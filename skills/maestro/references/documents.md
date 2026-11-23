@@ -1,3 +1,5 @@
+<!-- Maestro · Copyright 2026 Ahmed Elashry · Apache-2.0 · https://github.com/aezzatelashry/maestro -->
+
 # المايسترو للمستندات
 
 الملف ده بيحكم لما الشغل مستندات مش كود: رد على مناقصة، عرض فني، submittal ومواد، تقرير مشروع أو حالة، BOQ وكميات، عرض تقديمي، محضر أو ترجمة فنية. باقي `SKILL.md` شغّال زي ما هو، والفرق في اللي تحت.

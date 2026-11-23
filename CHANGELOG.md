@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (2026-11-24)
+
+- License changed from MIT to Apache License 2.0, with a NOTICE file naming the author.
+- Copyright line added at the top of each skill file.
+- README laid out side by side: English and Arabic in two columns.
+
 ## 1.0.0 (2026-11-23)
 
 First public release.
