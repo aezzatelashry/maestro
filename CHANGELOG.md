@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2026-11-24)
+
+- Author's name in Arabic added to the README and NOTICE.
+
 ## 1.0.1 (2026-11-24)
 
 - License changed from MIT to Apache License 2.0, with a NOTICE file naming the author.

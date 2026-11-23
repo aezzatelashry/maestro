@@ -160,7 +160,7 @@ You may use, change and share Maestro, including commercially. If you share a co
 </td>
 <td width="50%" valign="top" dir="rtl">
 
-حقوق النشر 2026 لـ Ahmed Elashry. مرخّص بـ [Apache License 2.0](LICENSE).
+حقوق النشر 2026 لـ أحمد عزت العشري (Ahmed Elashry). مرخّص بـ [Apache License 2.0](LICENSE).
 
 تقدر تستخدم المايسترو وتعدّل عليه وتنشره، حتى للاستخدام التجاري. لو نشرت نسخة منه أو نسخة معدّلة، لازم:
 
