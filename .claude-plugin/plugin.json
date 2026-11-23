@@ -1,6 +1,6 @@
 {
   "name": "maestro",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The strongest model plans and reviews; smaller models build. Cost-aware task routing, per-task evidence, independent review and a document mode (tenders, submittals, reports, decks) for Claude Code.",
   "author": {
     "name": "Ahmed Elashry"

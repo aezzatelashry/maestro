@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 (2026-11-24)
+
+- Plugin icon added: a conductor's baton sweeping an arc through three notes.
+
 ## 1.0.2 (2026-11-24)
 
 - Author's name in Arabic added to the README and NOTICE.
