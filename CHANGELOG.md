@@ -1,0 +1,17 @@
+# Changelog
+
+## 1.0.0 (2026-11-23)
+
+First public release.
+
+- Request sizing (small, medium, large or sensitive) that decides which steps run.
+- Task plan with model, files, skills and evidence for each task.
+- Model routing table, tuned over time from a run log.
+- Executor brief in seven fixed parts.
+- Review by the planning model, plus an independent fresh-context reviewer for large or sensitive work.
+- Pre-mortem before dispatching large work.
+- Run limits: parallel executors, attempts per model, model escalations and plan growth.
+- Session state in `docs/STATUS.md`.
+- Document mode for tenders, submittals, reports, decks and BOQs.
+- Evidence table for each kind of task.
+- Learning files kept in `~/.claude/maestro/`, outside the plugin folder.

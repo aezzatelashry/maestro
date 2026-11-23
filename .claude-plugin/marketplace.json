@@ -1,0 +1,14 @@
+{
+  "name": "maestro",
+  "description": "Maestro: cost-aware multi-model orchestration for Claude Code.",
+  "owner": {
+    "name": "Ahmed Elashry"
+  },
+  "plugins": [
+    {
+      "name": "maestro",
+      "source": "./",
+      "description": "The strongest model plans and reviews; smaller models build. Cost-aware task routing, per-task evidence, independent review and a document mode for Claude Code."
+    }
+  ]
+}

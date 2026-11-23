@@ -1,0 +1,12 @@
+# Personal maestro data never belongs in this repo
+rules.md
+lessons.md
+runs.md
+!skills/maestro/references/templates/lessons.md
+!skills/maestro/references/templates/runs.md
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
