@@ -1,6 +1,6 @@
 ---
 name: maestro
-description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», maestro, or runs /maestro:maestro; also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
+description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», maestro, or runs /elashry-maestro:maestro; also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
 ---
 <!-- Maestro · Copyright 2026 Ahmed Elashry · Apache-2.0 · https://github.com/aezzatelashry/maestro -->
 

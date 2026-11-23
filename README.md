@@ -88,7 +88,7 @@ Inside Claude Code · جوه Claude Code:
 
 ```
 /plugin marketplace add aezzatelashry/maestro
-/plugin install maestro@maestro
+/plugin install elashry-maestro@maestro
 ```
 
 Update later · التحديث بعدين:
@@ -102,7 +102,7 @@ Update later · التحديث بعدين:
 Say "maestro" or «المايسترو», or run · قول «المايسترو» أو "maestro"، أو شغّل:
 
 ```
-/maestro:maestro
+/elashry-maestro:maestro
 ```
 
 ## Files · الملفات

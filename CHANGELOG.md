@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0 (2026-11-24)
+
+- Plugin renamed from `maestro` to `elashry-maestro`, because the directory reserves "maestro" for an existing listing.
+- Install with `/plugin install elashry-maestro@maestro`. The command is now `/elashry-maestro:maestro`.
+- If you installed 1.x, run `/plugin uninstall maestro@maestro` first. Your files in `~/.claude/maestro/` are kept.
+
 ## 1.0.3 (2026-11-24)
 
 - Plugin icon added: a conductor's baton sweeping an arc through three notes.
