@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2026-11-24)
+
+- Support and documentation links added to the plugin manifest.
+
 ## 2.0.0 (2026-11-24)
 
 - Plugin renamed from `maestro` to `elashry-maestro`, because the directory reserves "maestro" for an existing listing.
