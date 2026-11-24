@@ -1,4 +1,12 @@
-<h1 align="center">Maestro · المايسترو</h1>
+<p align="center">
+<img src="assets/banner.png" alt="Maestro · المايسترو: the strongest model plans and reviews, smaller models build" width="100%">
+</p>
+
+<p align="center">
+<a href="LICENSE"><img src="https://img.shields.io/github/license/aezzatelashry/maestro?color=E8B04B&labelColor=101A2E" alt="License: Apache-2.0"></a>
+<a href="https://github.com/aezzatelashry/maestro/releases/latest"><img src="https://img.shields.io/github/v/release/aezzatelashry/maestro?label=version&color=E8B04B&labelColor=101A2E" alt="Latest version"></a>
+<a href="https://code.claude.com"><img src="https://img.shields.io/badge/Claude%20Code-plugin%20%2B%20skill-F4EBD9?labelColor=101A2E" alt="Claude Code plugin and skill"></a>
+</p>
 
 <p align="center">
 Cost-aware multi-model orchestration for Claude Code<br>
@@ -27,6 +35,28 @@ Most implementation work does not need the most expensive model. Review and judg
 </td>
 </tr>
 </table>
+
+## How it works · إزاي بيشتغل
+
+```mermaid
+flowchart LR
+    R["Your request<br>طلبك"] --> P["Maestro plans<br>المايسترو بيخطط"]
+    P --> O["Opus<br>hard logic<br>المنطق الصعب"]
+    P --> S["Sonnet<br>regular builds<br>البناء العادي"]
+    P --> H["Haiku<br>mechanical work<br>الشغل الآلي"]
+    O --> V["Maestro reviews<br>المايسترو بيراجع"]
+    S --> V
+    H --> V
+    V -- "issue: back to the same executor<br>عيب: يرجع لنفس المنفّذ" --> S
+    V --> D["Done, with evidence<br>خلص، بالدليل"]
+
+    classDef maestro fill:#E8B04B,stroke:#101A2E,color:#101A2E,font-weight:bold
+    classDef worker fill:#F4EBD9,stroke:#101A2E,color:#101A2E
+    classDef io fill:#101A2E,stroke:#E8B04B,color:#F4EBD9
+    class P,V maestro
+    class O,S,H worker
+    class R,D io
+```
 
 ## What it does · بيعمل إيه
 
