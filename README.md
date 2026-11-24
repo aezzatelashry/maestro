@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-<a href="LICENSE"><img src="https://img.shields.io/github/license/aezzatelashry/maestro?color=E8B04B&labelColor=101A2E" alt="License: Apache-2.0"></a>
-<a href="https://github.com/aezzatelashry/maestro/releases/latest"><img src="https://img.shields.io/github/v/release/aezzatelashry/maestro?label=version&color=E8B04B&labelColor=101A2E" alt="Latest version"></a>
-<a href="https://code.claude.com"><img src="https://img.shields.io/badge/Claude%20Code-plugin%20%2B%20skill-F4EBD9?labelColor=101A2E" alt="Claude Code plugin and skill"></a>
+<a href="LICENSE"><img src="assets/badges/license.svg" alt="License: Apache-2.0"></a>
+<a href="https://github.com/aezzatelashry/maestro/releases/latest"><img src="assets/badges/version.svg" alt="Latest version"></a>
+<a href="https://code.claude.com"><img src="assets/badges/claude-code.svg" alt="Claude Code plugin and skill"></a>
 </p>
 
 <p align="center">

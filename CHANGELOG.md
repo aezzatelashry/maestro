@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2 (2026-11-24)
+
+- Badges are now SVG files in `assets/badges/`, so they show even when shields.io is slow.
+
 ## 2.2.1 (2026-11-24)
 
 - README: English banner in the icon's style, badges for license, version and Claude Code, and a diagram of how Maestro routes and reviews work.
