@@ -84,6 +84,10 @@ Most implementation work does not need the most expensive model. Review and judg
 
 ## Install · التركيب
 
+Two ways. Pick one, not both · طريقتين، اختار واحدة بس:
+
+### A. As a plugin (recommended) · كـ plugin (المقترح)
+
 Inside Claude Code · جوه Claude Code:
 
 ```
@@ -97,12 +101,52 @@ Update later · التحديث بعدين:
 /plugin marketplace update maestro
 ```
 
+Run · التشغيل: `/elashry-maestro:maestro`
+
+### B. As a standalone skill · كـ skill لوحدها
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+Copy the skill folder into `~/.claude/skills/maestro`. Either download `maestro-skill.zip` from the [latest release](https://github.com/aezzatelashry/maestro/releases/latest) and unzip it into `~/.claude/skills/`, or use git as below.
+
+To update, delete `~/.claude/skills/maestro` and repeat.
+
+</td>
+<td width="50%" valign="top" dir="rtl">
+
+انسخ فولدر الـ skill لـ `~/.claude/skills/maestro`. يا إما تنزّل `maestro-skill.zip` من [آخر release](https://github.com/aezzatelashry/maestro/releases/latest) وتفكّه جوه `~/.claude/skills/`، يا إما تستخدم git زي اللي تحت.
+
+للتحديث، امسح `~/.claude/skills/maestro` وكرّر نفس الخطوات.
+
+</td>
+</tr>
+</table>
+
+macOS / Linux:
+
+```bash
+git clone --depth 1 https://github.com/aezzatelashry/maestro.git /tmp/maestro-src
+cp -r /tmp/maestro-src/skills/maestro ~/.claude/skills/maestro
+```
+
+Windows (PowerShell):
+
+```powershell
+git clone --depth 1 https://github.com/aezzatelashry/maestro.git "$env:TEMP\maestro-src"
+Copy-Item -Recurse "$env:TEMP\maestro-src\skills\maestro" "$HOME\.claude\skills\maestro"
+```
+
+Run · التشغيل: `/maestro`
+
 ## Use · الاستخدام
 
-Say "maestro" or «المايسترو», or run · قول «المايسترو» أو "maestro"، أو شغّل:
+Say "maestro" or «المايسترو», or run the command for the way you installed it · قول «المايسترو» أو "maestro"، أو شغّل الأمر حسب طريقة التركيب:
 
 ```
-/elashry-maestro:maestro
+/elashry-maestro:maestro   # plugin
+/maestro                   # standalone skill
 ```
 
 ## Files · الملفات

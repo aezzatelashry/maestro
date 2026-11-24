@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0 (2026-11-24)
+
+- Can also be installed as a standalone skill in `~/.claude/skills/maestro`, run with `/maestro`.
+- `maestro-skill.zip` attached to each release, with LICENSE and NOTICE inside.
+- Template paths in the skill work in both plugin and standalone installs.
+
 ## 2.0.2 (2026-11-24)
 
 - Privacy policy added (PRIVACY.md): the plugin collects and sends no data.

@@ -1,6 +1,6 @@
 ---
 name: maestro
-description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», maestro, or runs /elashry-maestro:maestro; also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
+description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», maestro, or runs /elashry-maestro:maestro (or /maestro when installed as a standalone skill); also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
 ---
 <!-- Maestro · Copyright 2026 Ahmed Elashry · Apache-2.0 · https://github.com/aezzatelashry/maestro -->
 
@@ -12,15 +12,17 @@ description: The strongest available model plans, directs and reviews; smaller m
 
 اللغة مع المستخدم حسب قواعده (`CLAUDE.md`). قواعد المشروع (CI، الدمج، الحذف، الأسرار) أعلى من الـ skill دي دايمًا.
 
-## ملفات التعلّم (برا الـ plugin)
+## ملفات التعلّم (برا فولدر الـ skill)
 
-الـ plugin بيتمسح ويتنزل من جديد مع كل تحديث، فالمايسترو ما يكتبش جوه فولدره. اللي بيتعلّمه بيتحفظ عند المستخدم في `~/.claude/maestro/`:
+الـ skill بتتشغّل كـ plugin أو كـ skill لوحدها في `~/.claude/skills/maestro/`، وفي الحالتين فولدرها بيتبدّل مع كل تحديث، فالمايسترو ما يكتبش جوه. اللي بيتعلّمه بيتحفظ عند المستخدم في `~/.claude/maestro/`:
 
 | الملف | فيه إيه | أول مرة |
 |---|---|---|
 | `rules.md` | تعديلات المستخدم على القيم الافتراضية: جدول الموديلات، وحدود التشغيل، ومكان مكتبة المهارات | يتعمل فاضي |
-| `lessons.md` | دروس التشغيلات اللي فاتت | يتنسخ من `${CLAUDE_PLUGIN_ROOT}/skills/maestro/references/templates/lessons.md` |
-| `runs.md` | سجل المهام والموديلات والنتائج | يتنسخ من `${CLAUDE_PLUGIN_ROOT}/skills/maestro/references/templates/runs.md` |
+| `lessons.md` | دروس التشغيلات اللي فاتت | يتنسخ من `references/templates/lessons.md` جنب الـ `SKILL.md` دي |
+| `runs.md` | سجل المهام والموديلات والنتائج | يتنسخ من `references/templates/runs.md` جنب الـ `SKILL.md` دي |
+
+مسار القوالب: في الـ plugin هو `${CLAUDE_PLUGIN_ROOT}/skills/maestro/references/templates/`، وفي الـ skill اللي لوحدها هو `~/.claude/skills/maestro/references/templates/`.
 
 لو الفولدر مش موجود، اعمله وانسخ القوالب، وقول للمستخدم في سطر. ولو فيه تعارض بين `rules.md` والملف ده، `rules.md` هو اللي يمشي.
 
@@ -140,7 +142,7 @@ description: The strongest available model plans, directs and reviews; smaller m
 
 ## 8. التجدّد
 
-الـ skill دي بتتعلّم من كل تشغيل، وكل اللي بتتعلّمه بيتكتب في `~/.claude/maestro/`، مش في فولدر الـ plugin:
+الـ skill دي بتتعلّم من كل تشغيل، وكل اللي بتتعلّمه بيتكتب في `~/.claude/maestro/`، مش في فولدر الـ skill:
 
 - **بعد كل مهمة:** صف في `runs.md`، فيه الموديل وعدد المحاولات والنتيجة والاستهلاك (الـ tokens والمدة من إشعار انتهاء المنفّذ لو موجودين).
 - **ضبط الموديلات بالأرقام:** لو نوع شغل نجح من أول مرة 5 مرات ورا بعض على موديل معيّن، جرّب المهمة الجاية من نفس النوع على الموديل الأصغر منه، ومراجعتها ثابتة زي ما هي. ولو نوع شغل اترفع من موديل معيّن مرتين، سجّل في `rules.md` إنه بقى على الموديل الأكبر.
