@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/banner.png" alt="Maestro · المايسترو: the strongest model plans and reviews, smaller models build" width="100%">
+<img src="assets/banner.png" alt="Maestro: the strongest model plans and reviews, smaller models build" width="100%">
 </p>
 
 <p align="center">
@@ -47,7 +47,6 @@ flowchart LR
     O --> V["Maestro reviews<br>المايسترو بيراجع"]
     S --> V
     H --> V
-    V -- "issue: back to the same executor<br>عيب: يرجع لنفس المنفّذ" --> S
     V --> D["Done, with evidence<br>خلص، بالدليل"]
 
     classDef maestro fill:#E8B04B,stroke:#101A2E,color:#101A2E,font-weight:bold

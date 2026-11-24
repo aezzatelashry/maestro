@@ -2,7 +2,7 @@
 
 ## 2.2.1 (2026-11-24)
 
-- README: banner in the icon's style with the name in Arabic and English, badges for license, version and Claude Code, and a diagram of how Maestro routes and reviews work.
+- README: English banner in the icon's style, badges for license, version and Claude Code, and a diagram of how Maestro routes and reviews work.
 
 ## 2.2.0 (2026-11-24)
 
