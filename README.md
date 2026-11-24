@@ -109,16 +109,16 @@ Run · التشغيل: `/elashry-maestro:maestro`
 <tr>
 <td width="50%" valign="top">
 
-Copy the skill folder into `~/.claude/skills/maestro`. Either download `maestro-skill.zip` from the [latest release](https://github.com/aezzatelashry/maestro/releases/latest) and unzip it into `~/.claude/skills/`, or use git as below.
+The standalone skill is called **Elashry Pro Maestro-skill** (`elashry-pro-maestro-skill`). Download `elashry-pro-maestro-skill.zip` from the [latest release](https://github.com/aezzatelashry/maestro/releases/latest) and unzip it into `~/.claude/skills/`, or run the commands below.
 
-To update, delete `~/.claude/skills/maestro` and repeat.
+To update, delete `~/.claude/skills/elashry-pro-maestro-skill` and repeat.
 
 </td>
 <td width="50%" valign="top" dir="rtl">
 
-انسخ فولدر الـ skill لـ `~/.claude/skills/maestro`. يا إما تنزّل `maestro-skill.zip` من [آخر release](https://github.com/aezzatelashry/maestro/releases/latest) وتفكّه جوه `~/.claude/skills/`، يا إما تستخدم git زي اللي تحت.
+الـ skill اللي لوحدها اسمها **Elashry Pro Maestro-skill** (`elashry-pro-maestro-skill`). نزّل `elashry-pro-maestro-skill.zip` من [آخر release](https://github.com/aezzatelashry/maestro/releases/latest) وفكّه جوه `~/.claude/skills/`، أو شغّل الأوامر اللي تحت.
 
-للتحديث، امسح `~/.claude/skills/maestro` وكرّر نفس الخطوات.
+للتحديث، امسح `~/.claude/skills/elashry-pro-maestro-skill` وكرّر نفس الخطوات.
 
 </td>
 </tr>
@@ -127,26 +127,26 @@ To update, delete `~/.claude/skills/maestro` and repeat.
 macOS / Linux:
 
 ```bash
-git clone --depth 1 https://github.com/aezzatelashry/maestro.git /tmp/maestro-src
-cp -r /tmp/maestro-src/skills/maestro ~/.claude/skills/maestro
+curl -L -o /tmp/elashry-pro-maestro-skill.zip https://github.com/aezzatelashry/maestro/releases/latest/download/elashry-pro-maestro-skill.zip
+mkdir -p ~/.claude/skills && unzip -o /tmp/elashry-pro-maestro-skill.zip -d ~/.claude/skills
 ```
 
 Windows (PowerShell):
 
 ```powershell
-git clone --depth 1 https://github.com/aezzatelashry/maestro.git "$env:TEMP\maestro-src"
-Copy-Item -Recurse "$env:TEMP\maestro-src\skills\maestro" "$HOME\.claude\skills\maestro"
+Invoke-WebRequest https://github.com/aezzatelashry/maestro/releases/latest/download/elashry-pro-maestro-skill.zip -OutFile "$env:TEMP\elashry-pro-maestro-skill.zip"
+Expand-Archive "$env:TEMP\elashry-pro-maestro-skill.zip" "$HOME\.claude\skills" -Force
 ```
 
-Run · التشغيل: `/maestro`
+Run · التشغيل: `/elashry-pro-maestro-skill`
 
 ## Use · الاستخدام
 
 Say "maestro" or «المايسترو», or run the command for the way you installed it · قول «المايسترو» أو "maestro"، أو شغّل الأمر حسب طريقة التركيب:
 
 ```
-/elashry-maestro:maestro   # plugin
-/maestro                   # standalone skill
+/elashry-maestro:maestro       # plugin
+/elashry-pro-maestro-skill     # standalone skill
 ```
 
 ## Files · الملفات

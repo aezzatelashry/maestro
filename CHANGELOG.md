@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 (2026-11-24)
+
+- The standalone skill is renamed **Elashry Pro Maestro-skill** (`elashry-pro-maestro-skill`) so it does not clash with other skills named maestro. Run it with `/elashry-pro-maestro-skill`.
+- Release asset renamed to `elashry-pro-maestro-skill.zip`, with one-line download commands in the README.
+- The plugin keeps its name, `elashry-maestro`, and its command, `/elashry-maestro:maestro`.
+
 ## 2.1.0 (2026-11-24)
 
 - Can also be installed as a standalone skill in `~/.claude/skills/maestro`, run with `/maestro`.
