@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3 (2026-11-24)
+
+- New README banner: gold Maestro name beside the baton mark.
+
 ## 2.2.2 (2026-11-24)
 
 - Badges are now SVG files in `assets/badges/`, so they show even when shields.io is slow.
