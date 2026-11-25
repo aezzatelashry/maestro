@@ -186,6 +186,7 @@ Say "maestro" or «المايسترو», or run the command for the way you inst
 | `skills/maestro/references/documents.md` | Document mode | شغل المستندات |
 | `skills/maestro/references/evidence.md` | Evidence for each kind of task | الدليل لكل نوع مهمة |
 | `skills/maestro/references/templates/` | Empty templates for lessons and the run log | قوالب فاضية للدروس والسجل |
+| `hooks/hooks.json`, `scripts/` | Hooks and the local ledger scripts (plugin only) | الـ hooks وسكربتات السجل المحلي (في الـ plugin بس) |
 | `examples/` | Fictional examples: feature plan, tender plan, executor brief, status file | أمثلة خيالية: خطة ميزة، وخطة مناقصة، وبريف لمنفّذ، وملف حالة |
 
 ## Your private files · ملفاتك الخاصة
@@ -212,6 +213,65 @@ These files stay on your machine and are never uploaded.
 - **`runs.md`:** سجل المهام والموديلات والنتائج.
 
 الملفات دي بتفضل على جهازك، وما بتترفعش في أي مكان.
+
+</td>
+</tr>
+</table>
+
+## Hooks · الـ hooks
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+Since 2.3.0 the plugin ships three small local Python scripts that Claude Code runs itself, so logging does not depend on the model remembering it:
+
+- **Session start:** a banner (`المايسترو شغّال هنا`), and your rules, owner profile and last lessons are added to the context.
+- **Each subagent stops:** one line (model, role, new work, cache reads, duration), and one `unrated` row is appended to `~/.claude/maestro/ledger.jsonl`.
+- **End of a run:** a one-time reminder to rate the new rows and, if `dashboard.md` exists, to sync the dashboard.
+
+Useful commands: `ledger.py unrated`, `ledger.py rate`, `ledger.py report [--prices FILE]`. The hook messages print the full path of `ledger.py`.
+
+**Install note:** hooks work only when installed as the plugin, not as the standalone skill.
+
+**Turn off or limit:**
+
+- `MAESTRO_HOME`: environment variable that moves the data directory.
+- `config.json` in the data directory: `{"nudge": false}` stops the end-of-run reminder; `{"log_task_text": false}` stops storing the first 80 characters of each agent's prompt.
+
+**Optional status line** (a plugin cannot ship one, so add it to your own settings):
+
+```json
+{"statusLine":{"type":"command","command":"python3 \"<path to plugin>/scripts/hooks/statusline.py\""}}
+```
+
+**Not verified:** how the desktop and web apps display hook messages; the status line outside the terminal; Windows; installing these hooks through a cloud plugin install; `export-store` against a real dashboard store.
+
+</td>
+<td width="50%" valign="top" dir="rtl">
+
+من 2.3.0 الـ plugin معاه 3 سكربتات Python صغيرة على جهازك، Claude Code نفسه هو اللي بيشغّلها، فالتسجيل ما بيعتمدش إن الموديل يفتكر:
+
+- **أول الجلسة:** بانر (`المايسترو شغّال هنا`)، وقواعدك وملف المالك وآخر الدروس بتتحط في السياق.
+- **لما كل منفّذ يخلّص:** سطر واحد (الموديل والدور والشغل الجديد وقراءة الكاش والمدة)، وصف `unrated` بيتضاف في `~/.claude/maestro/ledger.jsonl`.
+- **آخر التشغيل:** تذكير مرة واحدة بتقييم الصفوف الجديدة، ولو فيه `dashboard.md` بيتزامن اللوحة.
+
+أوامر مفيدة: `ledger.py unrated` و`ledger.py rate` و`ledger.py report [--prices FILE]`. رسائل الـ hooks بتطبع المسار الكامل لـ `ledger.py`.
+
+**ملاحظة التركيب:** الـ hooks بتشتغل بس لما تركّب الـ plugin، مش الـ skill اللي لوحدها.
+
+**إزاي توقفها أو تحدّها:**
+
+- `MAESTRO_HOME`: متغير بيئة بينقل فولدر البيانات.
+- `config.json` في فولدر البيانات: `{"nudge": false}` بيوقف تذكير آخر التشغيل؛ و`{"log_task_text": false}` بيمنع تسجيل أول 80 حرف من طلب كل منفّذ.
+
+**شريط الحالة (اختياري)** (الـ plugin ما يقدرش يجيب واحد، فحطه في إعداداتك إنت):
+
+```json
+{"statusLine":{"type":"command","command":"python3 \"<path to plugin>/scripts/hooks/statusline.py\""}}
+```
+
+**ما اتجرّبش:** شكل رسائل الـ hooks في تطبيق الديسكتوب والويب؛ شريط الحالة برا الـ terminal؛ ويندوز؛ تركيب الـ hooks دي من خلال تركيب plugin سحابي؛ و`export-store` على لوحة حقيقية.
 
 </td>
 </tr>

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3.0 (2026-11-25)
+
+- **Hooks and an automatic ledger.** Three hooks (session start, subagent stop, stop) run local Python scripts, so usage is logged from real transcripts instead of relying on the model to remember. Each subagent run adds one `unrated` row to `~/.claude/maestro/ledger.jsonl`; the Maestro only rates the rows. The scripts are in `scripts/`, the hook list in `hooks/hooks.json`.
+- **What a completion notice's token figure is.** It is only the size of the agent's last request, not its work. Matched exactly against five real transcripts, the real work was several times larger. Hook rows count input + output + cache writes as `tokens` and keep cache reads separately.
+- **`ledger.py`:** `rate`, `unrated`, `export-store`, and `report --prices` with per-category prices (input, output, cache write, cache read). Rows now carry the project folder name, and `report` shows a by-project table when they do.
+- **Opt-in status line:** `scripts/hooks/statusline.py`. A plugin cannot ship a status line, so it is added by hand (see the README).
+- **Data directory rule:** `MAESTRO_HOME` if set; else `~/.claude/maestro` when the scripts sit in the plugin; else `<project>/.claude/conductor`. `config.json` there accepts `{"nudge": false}` and `{"log_task_text": false}`.
+- **New privacy surface:** scripts that run on your machine, read agent transcripts and write `~/.claude/maestro/ledger.jsonl`, in every project. Nothing is sent anywhere. See PRIVACY.md.
+- The standalone skill form has no hooks.
+- **Not verified:** how the desktop and web apps display hook messages; the status line outside the terminal; Windows; installing these hooks through a cloud plugin install; `export-store` against a real dashboard store.
+
 ## 2.2.3 (2026-11-24)
 
 - New README banner: gold Maestro name beside the baton mark.
