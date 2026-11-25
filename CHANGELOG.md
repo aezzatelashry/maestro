@@ -1,5 +1,28 @@
 # Changelog
 
+## 3.0.0 (2026-11-25)
+
+- **One tool.** Everything the standalone `fable-conductor` skill (2.4.0) had is merged into Maestro, which is now the single tool. `fable-conductor` is retired.
+- **Modes**, picked in plain words: a menu of choices, plan only, watch (spend and quality), a live dashboard of the ledger, audit of installed skills and plugins, owner profile, and evolve (update the plugin from evidence). Section 10 of `SKILL.md` lists them.
+- **New references** in `skills/maestro/references/`: `routing.md`, `briefs.md`, `verify.md`, `watch.md`, `menu.md`, `owner.md`, `dashboard.md`, `audit.md`, `evolve.md`, `capabilities.md`. `SKILL.md` keeps its own model table, run limits, 7-part brief and independent review, and only points to them.
+- **Bundled agents** with a pinned model: `elashry-maestro:runner` (Haiku), `elashry-maestro:builder` and `elashry-maestro:reviewer` (Sonnet), `elashry-maestro:deep-reviewer` (Opus).
+- **`scripts/inventory.py`:** read-only inventory of installed skills, plugins and hooks, used by the audit mode.
+- **Owner profile** in `~/.claude/maestro/owner.md`, and an optional dashboard address in `~/.claude/maestro/dashboard.md`.
+- **Privacy:** PRIVACY.md now says the dashboard sync is done by the model through the Claude artifact tool, and that `inventory.py` only reads local configuration and prints to the terminal.
+- **Not verified:** the modes that are model instructions (menu, plan only, watch, dashboard, audit, owner, evolve) have not been run end to end; how the desktop and web apps display hook messages; the status line outside the terminal; Windows; hooks and bundled agents installed through a cloud plugin install; `export-store` against a real dashboard store. `capabilities.md` comes from fable-conductor 2.4.0 (2026-11-22) and has not been re-checked in a Maestro session.
+- **Migration:** the standalone skill form (`elashry-pro-maestro-skill`) has no hooks and no bundled agents. If you used `fable-conductor`, uninstall it and use this plugin. Your files in `~/.claude/maestro/` are kept.
+
+## 2.3.0 (2026-11-25)
+
+- **Hooks and an automatic ledger.** Three hooks (session start, subagent stop, stop) run local Python scripts, so usage is logged from real transcripts instead of relying on the model to remember. Each subagent run adds one `unrated` row to `~/.claude/maestro/ledger.jsonl`; the Maestro only rates the rows. The scripts are in `scripts/`, the hook list in `hooks/hooks.json`.
+- **What a completion notice's token figure is.** It is only the size of the agent's last request, not its work. Matched exactly against five real transcripts, the real work was several times larger. Hook rows count input + output + cache writes as `tokens` and keep cache reads separately.
+- **`ledger.py`:** `rate`, `unrated`, `export-store`, and `report --prices` with per-category prices (input, output, cache write, cache read). Rows now carry the project folder name, and `report` shows a by-project table when they do.
+- **Opt-in status line:** `scripts/hooks/statusline.py`. A plugin cannot ship a status line, so it is added by hand (see the README).
+- **Data directory rule:** `MAESTRO_HOME` if set; else `~/.claude/maestro` when the scripts sit in the plugin; else `<project>/.claude/conductor`. `config.json` there accepts `{"nudge": false}` and `{"log_task_text": false}`.
+- **New privacy surface:** scripts that run on your machine, read agent transcripts and write `~/.claude/maestro/ledger.jsonl`, in every project. Nothing is sent anywhere. See PRIVACY.md.
+- The standalone skill form has no hooks.
+- **Not verified:** how the desktop and web apps display hook messages; the status line outside the terminal; Windows; installing these hooks through a cloud plugin install; `export-store` against a real dashboard store.
+
 ## 2.2.3 (2026-11-24)
 
 - New README banner: gold Maestro name beside the baton mark.

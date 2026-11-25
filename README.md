@@ -73,6 +73,9 @@ flowchart LR
 - **Keeps state** in `docs/STATUS.md`, so a new session picks up where the last one stopped.
 - **Handles documents too:** tender responses, submittals, project reports, decks and BOQs. Every figure is traced to its source, and nothing is invented.
 - **Learns.** Lessons and the run log live in `~/.claude/maestro/`, outside the plugin, so updates do not erase them.
+- **Bundled agents** with a pinned model: `runner` (Haiku), `builder` and `reviewer` (Sonnet), `deep-reviewer` (Opus, for money, data, auth, security, migrations and concurrency).
+- **Modes**, picked in plain words: a menu of choices, plan only, spend and quality (watch), a live dashboard of the ledger, an audit of installed skills and plugins, and an update of the plugin from evidence.
+- **Owner profile.** Your corrections and standing preferences are kept as dated lines in `~/.claude/maestro/owner.md`; you can show, edit or delete them.
 
 </td>
 <td width="50%" valign="top" dir="rtl">
@@ -87,6 +90,26 @@ flowchart LR
 - **بيحفظ الحالة** في `docs/STATUS.md`، فأي جلسة جديدة تكمّل من نفس النقطة.
 - **بيشتغل على المستندات كمان:** مناقصات، وsubmittals، وتقارير مشاريع، وعروض، وBOQ. كل رقم ليه مصدر، ومفيش حاجة بتتألّف.
 - **بيتعلّم.** الدروس والسجل بيتحفظوا في `~/.claude/maestro/`، برا الـ plugin، فما بيضيعوش مع التحديث.
+- **منفّذين جاهزين** بموديل مثبّت: `runner` (Haiku)، و`builder` و`reviewer` (Sonnet)، و`deep-reviewer` (Opus، للفلوس وسلامة البيانات والصلاحيات والأمان والهجرات والتزامن).
+- **أوضاع** بتتختار بكلام عادي: قائمة خيارات، والخطة بس، والاستهلاك والجودة (watch)، ولوحة حيّة للسجل، وجرد الإضافات المركّبة، وتحديث الـ plugin من الأدلة.
+- **ملف المالك.** تصحيحاتك وتفضيلاتك الدايمة بتتحفظ كسطور بتاريخ في `~/.claude/maestro/owner.md`، وتقدر تشوفها أو تعدّلها أو تمسحها.
+
+</td>
+</tr>
+</table>
+
+## What replaced fable-conductor · اللي حلّ محل fable-conductor
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+Maestro 3.0.0 includes everything the standalone `fable-conductor` skill had: routing details, briefs, verification, the watch, menu, owner profile, dashboard, audit and evolve modes, and the bundled agents. Use this plugin only; the standalone skill is retired.
+
+</td>
+<td width="50%" valign="top" dir="rtl">
+
+المايسترو 3.0.0 جواه كل اللي كان في skill `fable-conductor` اللي لوحدها: تفاصيل التوجيه والبريف والتحقق، وأوضاع المراقبة والقائمة وملف المالك واللوحة والجرد والتحديث، والمنفّذين الجاهزين. استخدم الـ plugin ده بس؛ الـ skill القديمة اتقفلت.
 
 </td>
 </tr>
@@ -185,7 +208,13 @@ Say "maestro" or «المايسترو», or run the command for the way you inst
 | `skills/maestro/SKILL.md` | Core rules | القواعد الأساسية |
 | `skills/maestro/references/documents.md` | Document mode | شغل المستندات |
 | `skills/maestro/references/evidence.md` | Evidence for each kind of task | الدليل لكل نوع مهمة |
+| `skills/maestro/references/routing.md`, `briefs.md`, `verify.md` | Routing, briefs and verification details | تفاصيل التوجيه والبريف والتحقق |
+| `skills/maestro/references/watch.md`, `dashboard.md`, `audit.md` | Spend and quality, live dashboard, audit of installed skills | الاستهلاك والجودة، واللوحة الحيّة، وجرد الإضافات |
+| `skills/maestro/references/menu.md`, `owner.md`, `evolve.md`, `capabilities.md` | Menu, owner profile, updating from evidence, what the environment offers | القائمة، وملف المالك، والتحديث من الأدلة، واللي البيئة بتوفّره |
+| `agents/` | Bundled agents: `runner`, `builder`, `reviewer`, `deep-reviewer` (plugin only) | المنفّذين الجاهزين (في الـ plugin بس) |
+| `scripts/inventory.py` | Read-only inventory of installed skills, plugins and hooks | جرد للقراءة بس للمهارات والـ plugins والـ hooks المركّبة |
 | `skills/maestro/references/templates/` | Empty templates for lessons and the run log | قوالب فاضية للدروس والسجل |
+| `hooks/hooks.json`, `scripts/` | Hooks and the local ledger scripts (plugin only) | الـ hooks وسكربتات السجل المحلي (في الـ plugin بس) |
 | `examples/` | Fictional examples: feature plan, tender plan, executor brief, status file | أمثلة خيالية: خطة ميزة، وخطة مناقصة، وبريف لمنفّذ، وملف حالة |
 
 ## Your private files · ملفاتك الخاصة
@@ -212,6 +241,65 @@ These files stay on your machine and are never uploaded.
 - **`runs.md`:** سجل المهام والموديلات والنتائج.
 
 الملفات دي بتفضل على جهازك، وما بتترفعش في أي مكان.
+
+</td>
+</tr>
+</table>
+
+## Hooks · الـ hooks
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+Since 2.3.0 the plugin ships three small local Python scripts that Claude Code runs itself, so logging does not depend on the model remembering it:
+
+- **Session start:** a banner (`المايسترو شغّال هنا`), and your rules, owner profile and last lessons are added to the context.
+- **Each subagent stops:** one line (model, role, new work, cache reads, duration), and one `unrated` row is appended to `~/.claude/maestro/ledger.jsonl`.
+- **End of a run:** a one-time reminder to rate the new rows and, if `dashboard.md` exists, to sync the dashboard.
+
+Useful commands: `ledger.py unrated`, `ledger.py rate`, `ledger.py report [--prices FILE]`. The hook messages print the full path of `ledger.py`.
+
+**Install note:** hooks work only when installed as the plugin, not as the standalone skill.
+
+**Turn off or limit:**
+
+- `MAESTRO_HOME`: environment variable that moves the data directory.
+- `config.json` in the data directory: `{"nudge": false}` stops the end-of-run reminder; `{"log_task_text": false}` stops storing the first 80 characters of each agent's prompt.
+
+**Optional status line** (a plugin cannot ship one, so add it to your own settings):
+
+```json
+{"statusLine":{"type":"command","command":"python3 \"<path to plugin>/scripts/hooks/statusline.py\""}}
+```
+
+**Not verified:** how the desktop and web apps display hook messages; the status line outside the terminal; Windows; installing these hooks through a cloud plugin install; `export-store` against a real dashboard store.
+
+</td>
+<td width="50%" valign="top" dir="rtl">
+
+من 2.3.0 الـ plugin معاه 3 سكربتات Python صغيرة على جهازك، Claude Code نفسه هو اللي بيشغّلها، فالتسجيل ما بيعتمدش إن الموديل يفتكر:
+
+- **أول الجلسة:** بانر (`المايسترو شغّال هنا`)، وقواعدك وملف المالك وآخر الدروس بتتحط في السياق.
+- **لما كل منفّذ يخلّص:** سطر واحد (الموديل والدور والشغل الجديد وقراءة الكاش والمدة)، وصف `unrated` بيتضاف في `~/.claude/maestro/ledger.jsonl`.
+- **آخر التشغيل:** تذكير مرة واحدة بتقييم الصفوف الجديدة، ولو فيه `dashboard.md` بيتزامن اللوحة.
+
+أوامر مفيدة: `ledger.py unrated` و`ledger.py rate` و`ledger.py report [--prices FILE]`. رسائل الـ hooks بتطبع المسار الكامل لـ `ledger.py`.
+
+**ملاحظة التركيب:** الـ hooks بتشتغل بس لما تركّب الـ plugin، مش الـ skill اللي لوحدها.
+
+**إزاي توقفها أو تحدّها:**
+
+- `MAESTRO_HOME`: متغير بيئة بينقل فولدر البيانات.
+- `config.json` في فولدر البيانات: `{"nudge": false}` بيوقف تذكير آخر التشغيل؛ و`{"log_task_text": false}` بيمنع تسجيل أول 80 حرف من طلب كل منفّذ.
+
+**شريط الحالة (اختياري)** (الـ plugin ما يقدرش يجيب واحد، فحطه في إعداداتك إنت):
+
+```json
+{"statusLine":{"type":"command","command":"python3 \"<path to plugin>/scripts/hooks/statusline.py\""}}
+```
+
+**ما اتجرّبش:** شكل رسائل الـ hooks في تطبيق الديسكتوب والويب؛ شريط الحالة برا الـ terminal؛ ويندوز؛ تركيب الـ hooks دي من خلال تركيب plugin سحابي؛ و`export-store` على لوحة حقيقية.
 
 </td>
 </tr>

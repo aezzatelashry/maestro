@@ -1,6 +1,6 @@
 ---
 name: maestro
-description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», maestro, or runs /elashry-maestro:maestro (or /elashry-pro-maestro-skill when installed as a standalone skill); also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
+description: The strongest available model plans, directs and reviews; smaller models (Opus, Sonnet, Haiku) do the building, each task on the smallest model that does it well. Use at the start of any multi-step build in any project, when the user says «المايسترو», «قسّم المهام على الموديلات», «وزّع الشغل», «صرفنا قد إيه توكن», «ورّيني ملفي», maestro, or runs /elashry-maestro:maestro (or /elashry-pro-maestro-skill when installed as a standalone skill); also before spawning more than one executor agent, and for multi-part document work (tender responses, submittals, project reports, decks, BOQs). Not for a single small edit or a question.
 ---
 <!-- Maestro · Copyright 2026 Ahmed Elashry · Apache-2.0 · https://github.com/aezzatelashry/maestro -->
 
@@ -21,6 +21,10 @@ description: The strongest available model plans, directs and reviews; smaller m
 | `rules.md` | تعديلات المستخدم على القيم الافتراضية: جدول الموديلات، وحدود التشغيل، ومكان مكتبة المهارات | يتعمل فاضي |
 | `lessons.md` | دروس التشغيلات اللي فاتت | يتنسخ من `references/templates/lessons.md` جنب الـ `SKILL.md` دي |
 | `runs.md` | سجل المهام والموديلات والنتائج | يتنسخ من `references/templates/runs.md` جنب الـ `SKILL.md` دي |
+| `ledger.jsonl` | سجل تلقائي من الـ hooks: بيتكتب لوحده، والمايسترو بيقيّم صفوفه بس | الـ hook بيعمله |
+| `owner.md` | تفضيلات المالك، و`dashboard.md` عنوان اللوحة الحيّة، والاتنين اختياريين | اختياري |
+
+الـ hooks (الفقرة 9) هي اللي بتكتب `ledger.jsonl`، وبتشتغل بس لما الـ skill تتركّب كـ plugin، مش كـ skill لوحدها.
 
 مسار القوالب: في الـ plugin هو `${CLAUDE_PLUGIN_ROOT}/skills/maestro/references/templates/`، وفي الـ skill اللي لوحدها هو `~/.claude/skills/elashry-pro-maestro-skill/references/templates/`.
 
@@ -29,7 +33,7 @@ description: The strongest available model plans, directs and reviews; smaller m
 ## 1. قبل أي توزيع
 
 1. لو المشروع فيه `docs/STATUS.md` (الفقرة 7)، اقرأه الأول، وقارنه بالواقع (`git log` والفروع المفتوحة) قبل ما تعتمد عليه.
-2. اقرأ `~/.claude/maestro/rules.md` و`~/.claude/maestro/lessons.md` وطبّقهم.
+2. اقرأ `~/.claude/maestro/rules.md` و`~/.claude/maestro/lessons.md` وطبّقهم. لو الـ hooks شغّالة، القواعد والدروس وملف المالك بتتحط في السياق أول الجلسة، بس لو البانر ما ظهرش اقراهم بنفسك.
 3. اقرأ قواعد المشروع: `CLAUDE.md`، ودليل الـ CI، وأي ملف خطة قائم.
 4. لو الشغل مستندات مش كود (مناقصة، submittal، تقرير، عرض، BOQ)، اقرأ `references/documents.md`. هو اللي بيحكم في الأجزاء الخاصة بالفروع والـ CI والـ diff.
 5. افهم المطلوب لحد ما تقدر تكتب «تم» لكل جزء في سطر. لو مش قادر، المهمة لسه مش جاهزة للتوزيع: ابحث أكتر، أو اسأل المستخدم سؤال واحد بخيارات.
@@ -82,6 +86,17 @@ description: The strongest available model plans, directs and reviews; smaller m
 
 لو المايسترو نفسه Opus، مهام صف Opus برضه تروح لمنفّذ Opus بسياق جديد، والمايسترو يفضل للخطة والمراجعة.
 
+الـ plugin جاي معاه 4 منفّذين بموديل ومجهود مثبّتين (`agents/`)، وبتناديهم في `Agent` بالاسم ده:
+
+| المنفّذ | الموديل | بيتستخدم في |
+|---|---|---|
+| `elashry-maestro:runner` | Haiku | تشغيل أوامر طويلة وتقرير ناتجها زي ما هو، من غير تفسير |
+| `elashry-maestro:builder` | Sonnet | التنفيذ من بريف |
+| `elashry-maestro:reviewer` | Sonnet | مراجعة عادية للقراءة بس |
+| `elashry-maestro:deep-reviewer` | Opus | مراجعة فلوس وسلامة بيانات وصلاحيات وأمان وهجرات وتزامن، للقراءة بس |
+
+الأمر اللي ناتجه كام سطر يتشغّل مباشرة من غير موديل، ولو المشروع عنده منفّذين متخصصين استخدمهم لتخصصهم واضبط `model` حسب الصعوبة. التصعيد والتخفيض: `references/routing.md`.
+
 في `Agent`: حط `model` (`haiku` / `sonnet` / `opus`)، وحط `effort` بس لو المستخدم أو قواعد المشروع طلبوه. المهام اللي بتكتب كود تاخد `isolation: "worktree"`.
 
 ### حدود التشغيل
@@ -109,7 +124,7 @@ description: The strongest available model plans, directs and reviews; smaller m
 6. **«تم» يعني إيه:** الأوامر اللي يشغّلها والنتيجة المتوقعة.
 7. **صيغة التقرير:** الفرع والـ commit، الملفات، الأوامر بأعداد النجاح والفشل، واللي ما اتأكدش منه. بحد أقصى للكلمات.
 
-ما تديش المنفّذ استنتاجك كحقيقة لو مش متأكد منه: قوله يتحقق.
+ما تديش المنفّذ استنتاجك كحقيقة لو مش متأكد منه: قوله يتحقق. صيغة التقرير لكل دور (scout وrunner وbuilder وinvestigator وreviewer) وعادتين في كتابة البريف، وإعادة استخدام بريف نجح كقالب: `references/briefs.md`.
 
 ## 5. المراجعة (شغل المايسترو، ما يتفوّضش)
 
@@ -121,6 +136,7 @@ description: The strongest available model plans, directs and reviews; smaller m
 4. لو فيه عيب: رجّعه لنفس المنفّذ بـ `SendMessage` ومعاه الخطأ بالنص. ما تبدأش منفّذ جديد لنفس الشغل.
 5. لو المنفّذ فشل مرتين في نفس المهمة: ارفعها لموديل أكبر، أو قسّمها أصغر، واكتب الدرس. لو فشلت تاني بعد الرفع، وقّف واسأل المستخدم (حدود التشغيل في الفقرة 3).
 6. بعد كده بوابة المشروع (CI الكامل أو ما يقابله)، ثم الدمج حسب قواعد المشروع. في المستندات، البوابة هي التجميع في الملف النهائي ومراجعته مرة أخيرة.
+قايمة فحص التقرير، وعمق المراجعة حسب الخطر، والتعامل مع الملاحظات، وقبل ما تقول «تم»: `references/verify.md`.
 
 ## 6. اللي بيشوفه المستخدم
 
@@ -144,10 +160,44 @@ description: The strongest available model plans, directs and reviews; smaller m
 
 الـ skill دي بتتعلّم من كل تشغيل، وكل اللي بتتعلّمه بيتكتب في `~/.claude/maestro/`، مش في فولدر الـ skill:
 
-- **بعد كل مهمة:** صف في `runs.md`، فيه الموديل وعدد المحاولات والنتيجة والاستهلاك (الـ tokens والمدة من إشعار انتهاء المنفّذ لو موجودين).
+- **بعد كل مهمة:** لو الـ hooks شغّالة (الفقرة 9)، الاستهلاك بيتسجّل لوحده في `ledger.jsonl`، والمايسترو بيقيّم الصفوف بس بـ `ledger.py rate`، و`runs.md` يبقى ملخص بشري اختياري. من غير hooks: صف في `runs.md`، فيه الموديل وعدد المحاولات والنتيجة والاستهلاك (الـ tokens والمدة من إشعار انتهاء المنفّذ لو موجودين). **تحذير:** رقم الـ tokens في إشعار الانتهاء هو حجم آخر طلب للمنفّذ بس، مش شغله كله.
 - **ضبط الموديلات بالأرقام:** لو نوع شغل نجح من أول مرة 5 مرات ورا بعض على موديل معيّن، جرّب المهمة الجاية من نفس النوع على الموديل الأصغر منه، ومراجعتها ثابتة زي ما هي. ولو نوع شغل اترفع من موديل معيّن مرتين، سجّل في `rules.md` إنه بقى على الموديل الأكبر.
 - **لما السجل يعدّي 60 صف:** لخّصه في جدول الملخص اللي في أول نفس الملف، وامسح الصفوف اللي اتلخّصت.
 - **آخر كل مهمة كبيرة:** لو حصل حاجة تستاهل (موديل طلع أضعف أو أقوى من المتوقع في نوع شغل، بريف ناقص سبّب إعادة، تقسيم غلط)، ضيف سطر في `lessons.md` بالصيغة اللي فيه. سطر واحد، بالتاريخ والمشروع.
 - **كل ما الدروس توصل 15:** ادمج المتكرر منها في `rules.md` (جدول الموديلات، أو قواعد البريف، أو دليل إضافي لنوع مهمة)، وامسح اللي اتدمج. أي تعديل على `rules.md` يتعرض على المستخدم في سطرين قبل الحفظ.
 - **لما يطلع موديل جديد أو يتغيّر سعر:** راجع جدول الفقرة 3 من المصدر (skill `claude-api`)، مش من الذاكرة.
 - الدروس اللي تخص مشروع واحد بس تتكتب في memory المشروع، مش هنا.
+
+## 9. الـ hooks (في الـ plugin بس)
+
+في الـ plugin فيه 3 hooks بتشتغل بالـ harness، مش بذاكرة الموديل:
+
+- **بداية الجلسة:** بانر `المايسترو شغّال هنا` فيه الإصدار وعدد الصفوف، وبيحط في السياق قواعد المستخدم (`rules.md`) وملف المالك (`owner.md`) وآخر دروس (`lessons.md`) وعدد الصفوف اللي لسه من غير تقييم.
+- **لما كل منفّذ يخلّص:** سطر واحد فيه الموديل والدور والشغل الجديد وقراءة الكاش والمدة، وبيتضاف صف `unrated` في `ledger.jsonl` (من غير ما حد يكتبه بإيده). `config.json` فيه `{"log_task_text": false}` بيمنع تسجيل نص المهمة، و`{"nudge": false}` بيقفل التذكير اللي تحت.
+- **آخر التشغيل:** تذكير مرة واحدة بتقييم الصفوف، ولو فيه `dashboard.md` بتزامن اللوحة بـ `ledger.py export-store`.
+
+إزاي تعرف إنها شغّالة: البانر في أول الجلسة، وسطر كل منفّذ لما يخلّص. لو مظهروش، قول للمستخدم كده، وما تقولش إنها شغّالة. ولو سألك «شغّال؟»، جاوب من الدليل (سطور الـ hooks في المحادثة، أو صفوف `ledger.jsonl` بتاريخ النهارده)، مش من الذاكرة.
+
+الأوامر (المسار الكامل لـ `ledger.py` بيجي في رسالة الـ hook):
+
+- `ledger.py unrated`: الصفوف اللي لسه من غير تقييم.
+- `ledger.py rate --agent-id ID --outcome pass|rework|escalated|fail`: تقييم صف.
+- `ledger.py report` و`report --prices FILE`: ملخص حسب الموديل والنوع، ومعاه تقدير تكلفة لو فيه ملف أسعار.
+
+الـ hook ما يقدرش يحكم على نتيجة منفّذ، ولا يقرر إن الطلب فيه قطعتين. التقييم والتقسيم يفضلوا شغل المايسترو.
+
+## 10. الأوضاع
+
+الأوضاع دي بتتختار بكلام عادي، المستخدم مش محتاج يكتب أمر. لو أول رسالة في الجلسة مش مهمة محددة (تحية، «كمّل»، كلام عام)، اعرض القائمة كخيارات يختار منها. لو مهمة محددة، نفّذها.
+
+| الوضع | يتختار بـ | الملف |
+|---|---|---|
+| القائمة | أول رسالة مش مهمة، أو «القائمة»، وفي آخر كل تشغيل | `references/menu.md` |
+| الخطة بس | «ورّيني الخطة الأول»: وقّف بعد التقسيم وجدول التوجيه، ما تصرفش على منفّذين، واستنى الموافقة | الفقرة 2 |
+| الاستهلاك | «صرفنا قد إيه» | `references/watch.md` |
+| اللوحة | «ورّيني اللوحة» | `references/dashboard.md` |
+| الجرد | «جهّز الإضافات» أو «جرد الإضافات» | `references/audit.md` |
+| ملف المالك | «ورّيني ملفي» | `references/owner.md` |
+| التحديث | «حدّث المايسترو» | `references/evolve.md` |
+
+كل وضع بيغيّر حاجة برا المحادثة بعد ما المستخدم يختار خيار بيقول كده بس. وخريطة اللي البيئة بتوفّره في كل مرحلة: `references/capabilities.md`.
