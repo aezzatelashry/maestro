@@ -1,11 +1,12 @@
 """SessionStart hook: show that Maestro is on and brief the model."""
 
 import sys
+from pathlib import Path
 
 import hooklib as h
 
 LIMIT = 3000
-RULES_CAP, OWNER_CAP, LESSONS_CAP = 800, 1200, 500
+RULES_CAP, OWNER_CAP, LESSONS_CAP = 600, 900, 500
 RULES_HEAD = "User rules (take precedence over the skill defaults):"
 OWNER_HEAD = "Owner profile (follow without being reminded):"
 LESSONS_HEAD = "Lessons from past runs:"
@@ -18,6 +19,27 @@ def intro():
         "logged automatically by a hook: do not log them by hand; rate them with "
         f"`{h.ledger_cmd()} rate --agent-id ID --outcome pass|rework|escalated|fail` once you "
         "have judged them."
+    )
+
+
+AGENTS = (
+    "Bundled agents: `elashry-maestro:runner` (Haiku, long commands), `elashry-maestro:builder` (Sonnet), "
+    "`elashry-maestro:reviewer` (Sonnet, ordinary review), `elashry-maestro:deep-reviewer` (Opus, risky review)."
+)
+
+
+def menu_path():
+    return Path(__file__).resolve().parents[2] / "skills" / "maestro" / "references" / "menu.md"
+
+
+def menu_line():
+    """The first-message rule, or "" when the menu file is not shipped (per-project layout)."""
+    path = menu_path()
+    if not path.is_file():
+        return ""
+    return (
+        "If the user's first message is not a concrete task (a greeting, 'continue', something vague), "
+        f"show the menu from {path} as pick-an-option choices; if it is a concrete task, do the task."
     )
 
 
@@ -48,10 +70,9 @@ def main(payload, cdir):
     if unrated:
         msg += f", {h.ltr(unrated)} بدون تقييم"
 
-    fixed = [intro()]
-    if unrated:
-        fixed.append(f"Unrated dispatches: {unrated} (run `{h.ledger_cmd()} unrated`)")
-    used = len("\n\n".join(fixed))
+    front = [x for x in (intro(), AGENTS, menu_line()) if x]
+    tail = [f"Unrated dispatches: {unrated} (run `{h.ledger_cmd()} unrated`)"] if unrated else []
+    used = len("\n\n".join([*front, *tail]))
 
     rules = read(cdir / "rules.md").strip()
     owner = [x.rstrip() for x in read(cdir / "owner.md").splitlines() if x.startswith("- ")]
@@ -77,7 +98,7 @@ def main(payload, cdir):
             blocks[key] = f"{head}\n{body}"
             used += len(blocks[key]) + 2
 
-    parts = [fixed[0], *(blocks[k] for k in ("rules", "owner", "lessons") if k in blocks), *fixed[1:]]
+    parts = [*front, *(blocks[k] for k in ("rules", "owner", "lessons") if k in blocks), *tail]
     context = "\n\n".join(parts)[:LIMIT]
     h.emit(
         {

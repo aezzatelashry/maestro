@@ -73,6 +73,9 @@ flowchart LR
 - **Keeps state** in `docs/STATUS.md`, so a new session picks up where the last one stopped.
 - **Handles documents too:** tender responses, submittals, project reports, decks and BOQs. Every figure is traced to its source, and nothing is invented.
 - **Learns.** Lessons and the run log live in `~/.claude/maestro/`, outside the plugin, so updates do not erase them.
+- **Bundled agents** with a pinned model: `runner` (Haiku), `builder` and `reviewer` (Sonnet), `deep-reviewer` (Opus, for money, data, auth, security, migrations and concurrency).
+- **Modes**, picked in plain words: a menu of choices, plan only, spend and quality (watch), a live dashboard of the ledger, an audit of installed skills and plugins, and an update of the plugin from evidence.
+- **Owner profile.** Your corrections and standing preferences are kept as dated lines in `~/.claude/maestro/owner.md`; you can show, edit or delete them.
 
 </td>
 <td width="50%" valign="top" dir="rtl">
@@ -87,6 +90,26 @@ flowchart LR
 - **بيحفظ الحالة** في `docs/STATUS.md`، فأي جلسة جديدة تكمّل من نفس النقطة.
 - **بيشتغل على المستندات كمان:** مناقصات، وsubmittals، وتقارير مشاريع، وعروض، وBOQ. كل رقم ليه مصدر، ومفيش حاجة بتتألّف.
 - **بيتعلّم.** الدروس والسجل بيتحفظوا في `~/.claude/maestro/`، برا الـ plugin، فما بيضيعوش مع التحديث.
+- **منفّذين جاهزين** بموديل مثبّت: `runner` (Haiku)، و`builder` و`reviewer` (Sonnet)، و`deep-reviewer` (Opus، للفلوس وسلامة البيانات والصلاحيات والأمان والهجرات والتزامن).
+- **أوضاع** بتتختار بكلام عادي: قائمة خيارات، والخطة بس، والاستهلاك والجودة (watch)، ولوحة حيّة للسجل، وجرد الإضافات المركّبة، وتحديث الـ plugin من الأدلة.
+- **ملف المالك.** تصحيحاتك وتفضيلاتك الدايمة بتتحفظ كسطور بتاريخ في `~/.claude/maestro/owner.md`، وتقدر تشوفها أو تعدّلها أو تمسحها.
+
+</td>
+</tr>
+</table>
+
+## What replaced fable-conductor · اللي حلّ محل fable-conductor
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+Maestro 3.0.0 includes everything the standalone `fable-conductor` skill had: routing details, briefs, verification, the watch, menu, owner profile, dashboard, audit and evolve modes, and the bundled agents. Use this plugin only; the standalone skill is retired.
+
+</td>
+<td width="50%" valign="top" dir="rtl">
+
+المايسترو 3.0.0 جواه كل اللي كان في skill `fable-conductor` اللي لوحدها: تفاصيل التوجيه والبريف والتحقق، وأوضاع المراقبة والقائمة وملف المالك واللوحة والجرد والتحديث، والمنفّذين الجاهزين. استخدم الـ plugin ده بس؛ الـ skill القديمة اتقفلت.
 
 </td>
 </tr>
@@ -185,6 +208,11 @@ Say "maestro" or «المايسترو», or run the command for the way you inst
 | `skills/maestro/SKILL.md` | Core rules | القواعد الأساسية |
 | `skills/maestro/references/documents.md` | Document mode | شغل المستندات |
 | `skills/maestro/references/evidence.md` | Evidence for each kind of task | الدليل لكل نوع مهمة |
+| `skills/maestro/references/routing.md`, `briefs.md`, `verify.md` | Routing, briefs and verification details | تفاصيل التوجيه والبريف والتحقق |
+| `skills/maestro/references/watch.md`, `dashboard.md`, `audit.md` | Spend and quality, live dashboard, audit of installed skills | الاستهلاك والجودة، واللوحة الحيّة، وجرد الإضافات |
+| `skills/maestro/references/menu.md`, `owner.md`, `evolve.md`, `capabilities.md` | Menu, owner profile, updating from evidence, what the environment offers | القائمة، وملف المالك، والتحديث من الأدلة، واللي البيئة بتوفّره |
+| `agents/` | Bundled agents: `runner`, `builder`, `reviewer`, `deep-reviewer` (plugin only) | المنفّذين الجاهزين (في الـ plugin بس) |
+| `scripts/inventory.py` | Read-only inventory of installed skills, plugins and hooks | جرد للقراءة بس للمهارات والـ plugins والـ hooks المركّبة |
 | `skills/maestro/references/templates/` | Empty templates for lessons and the run log | قوالب فاضية للدروس والسجل |
 | `hooks/hooks.json`, `scripts/` | Hooks and the local ledger scripts (plugin only) | الـ hooks وسكربتات السجل المحلي (في الـ plugin بس) |
 | `examples/` | Fictional examples: feature plan, tender plan, executor brief, status file | أمثلة خيالية: خطة ميزة، وخطة مناقصة، وبريف لمنفّذ، وملف حالة |

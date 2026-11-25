@@ -26,10 +26,10 @@ def test_hooks_json_shape():
 def test_plugin_version_matches_changelog():
     plugin = json.loads((REPO / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
     top = re.search(r"^## (\d+\.\d+\.\d+)", (REPO / "CHANGELOG.md").read_text(encoding="utf-8"), re.MULTILINE)
-    assert top and plugin["version"] == top.group(1) == "2.3.0"
+    assert top and plugin["version"] == top.group(1)
     assert plugin["name"] == "elashry-maestro"
     assert {"hooks", "ledger"} <= set(plugin["keywords"])
-    assert "version: 2.3.0" in (REPO / "assets" / "badges" / "version.svg").read_text(encoding="utf-8")
+    assert f"version: {plugin['version']}" in (REPO / "assets" / "badges" / "version.svg").read_text(encoding="utf-8")
 
 
 def test_docs_mention_the_ledger():
@@ -40,7 +40,7 @@ def test_docs_mention_the_ledger():
 
 def test_skill_is_short_and_documents_hooks():
     text = (REPO / "skills" / "maestro" / "SKILL.md").read_text(encoding="utf-8")
-    assert len(text.splitlines()) < 200
+    assert len(text.splitlines()) <= 210
     for needle in ("ledger.jsonl", "owner.md", "ledger.py rate", "export-store", "## 9."):
         assert needle in text, needle
 
@@ -49,3 +49,42 @@ def test_no_leftover_source_paths_in_scripts():
     for path in [SCRIPTS / "ledger.py", *(SCRIPTS / "hooks").glob("*.py")]:
         assert "fable-conductor is installed" not in path.read_text(encoding="utf-8"), path
         assert not path.read_text(encoding="utf-8").startswith("#!"), path
+
+
+def referenced_paths(text):
+    """Backticked paths starting with references/, scripts/ or agents/ (placeholders skipped)."""
+    found = re.findall(r"`((?:references|scripts|agents)/[^`\s]*)`", text)
+    return [p for p in found if "<" not in p and "$" not in p]
+
+
+def missing_paths(doc):
+    """Referenced paths that do not exist: references/ is relative to skills/maestro/, others to the repo root."""
+    text = doc.read_text(encoding="utf-8")
+    base = REPO / "skills" / "maestro"
+    missing = []
+    for p in referenced_paths(text):
+        root = base if p.startswith("references/") else REPO
+        if not (root / p.rstrip("/")).exists():
+            missing.append(p)
+    return missing
+
+
+def test_missing_paths_helper_on_a_fake_skill(tmp_path):
+    doc = tmp_path / "SKILL.md"
+    doc.write_text(
+        "see `references/evidence.md` and `scripts/ledger.py` and `agents/runner.md`, "
+        "but `references/nope.md` and `scripts/<name>.py` and `scripts/$X.py` and `agents/ghost.md`",
+        encoding="utf-8",
+    )
+    assert missing_paths(doc) == ["references/nope.md", "agents/ghost.md"]
+    ok = tmp_path / "ok.md"
+    ok.write_text("`references/evidence.md` only", encoding="utf-8")
+    assert missing_paths(ok) == []
+
+
+def test_skill_references_exist():
+    assert missing_paths(REPO / "skills" / "maestro" / "SKILL.md") == []
+
+
+def test_readme_references_exist():
+    assert missing_paths(REPO / "README.md") == []

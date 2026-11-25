@@ -1,7 +1,7 @@
 {
   "name": "elashry-maestro",
-  "version": "2.3.0",
-  "description": "The strongest model plans and reviews; smaller models build. Cost-aware task routing, per-task evidence, independent review, a document mode (tenders, submittals, reports, decks) and automatic usage logging through hooks for Claude Code.",
+  "version": "3.0.0",
+  "description": "The strongest model plans and reviews; smaller models build. Cost-aware task routing, per-task evidence, independent review, a document mode (tenders, submittals, reports, decks) and automatic usage logging through hooks, and plain-word modes (menu, watch, dashboard, audit, owner profile, evolve) with bundled pinned-model agents, for Claude Code.",
   "author": {
     "name": "Ahmed Elashry"
   },

@@ -125,7 +125,9 @@ def test_session_start_full(tmp_path):
     ctx = out["hookSpecificOutput"]["additionalContext"]
     assert out["hookSpecificOutput"]["hookEventName"] == "SessionStart"
     assert "The Maestro plugin (elashry-maestro) is active" in ctx
-    assert "menu" not in ctx
+    assert "show the menu from" not in ctx  # per-project layout: no skills/ folder, so no menu sentence
+    for name in ("runner", "builder", "reviewer", "deep-reviewer"):
+        assert f"`elashry-maestro:{name}`" in ctx
     assert "- يحب الردود القصيرة" in ctx and "- يسأل بخيارات" in ctx
     assert "not a bullet" not in ctx
     assert "Owner profile (follow without being reminded):" in ctx
@@ -152,7 +154,7 @@ def test_session_start_caps_long_inputs(tmp_path):
     assert len(ctx) <= 3000
     assert "line 99" in ctx and "line 0 " not in ctx
     assert "lesson 19" in ctx and "lesson 0 " not in ctx
-    assert ctx.count("R") <= 800 + 20  # rules capped near 800 characters (the word "Rules" adds a few)
+    assert ctx.count("R") <= 600 + 20  # rules capped near 600 characters (the word "Rules" adds a few)
     assert "Unrated dispatches: 1" in ctx  # the tail part is never cut off
 
 

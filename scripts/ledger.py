@@ -1,4 +1,4 @@
-"""Dispatch ledger for the Maestro plugin (ported from fable-conductor).
+"""Dispatch ledger for the Maestro plugin.
 
   ledger.py add --model sonnet --role builder --tokens 48211 \
       --duration-ms 93000 --outcome pass --task "users import endpoint" [--kind implement]
